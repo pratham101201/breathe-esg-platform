@@ -1,0 +1,3 @@
+employee_id,origin,destination,distance_km,travel_date
+EMP001,DEL,LHR,6700,2026-01-08
+EMP002,BOM,DXB,1900,2026-01-12

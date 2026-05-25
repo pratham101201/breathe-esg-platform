@@ -1,0 +1,3 @@
+meter_id,billing_start,billing_end,kwh,tariff,cost
+MTR001,2026-01-01,2026-01-31,4500,Commercial,56000
+MTR002,2026-01-01,2026-01-31,12000,Industrial,140000
