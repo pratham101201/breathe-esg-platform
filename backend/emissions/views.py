@@ -2,15 +2,15 @@ from django.db.models import Sum, Count, Q
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 
 from .models import (
     EmissionRecord, IngestionBatch, RawRecord,
-    AuditLog, RecordStatus, AuditAction, BatchStatus
+    AuditLog, RecordStatus, AuditAction, BatchStatus, Facility, DataSource
 )
 from .serializers import (
     EmissionRecordSerializer, EmissionRecordListSerializer,
-    IngestionBatchSerializer, AuditLogSerializer
+    IngestionBatchSerializer, AuditLogSerializer,FacilitySerializer, DataSourceSerializer
 )
 
 
@@ -131,7 +131,32 @@ class EmissionRecordViewSet(TenantScopedMixin, viewsets.ModelViewSet):
         })
 
 
-class IngestionBatchViewSet(TenantScopedMixin, viewsets.ReadOnlyModelViewSet):
+class IngestionBatchViewSet(TenantScopedMixin, viewsets.ModelViewSet):
     queryset           = IngestionBatch.objects.select_related("source", "uploaded_by")
     serializer_class   = IngestionBatchSerializer
+    permission_classes = [IsAuthenticated]
+
+class AuditLogViewSet( viewsets.ModelViewSet):
+    queryset           = AuditLog.objects.select_related("changed_by")
+    serializer_class   = AuditLogSerializer
+    permission_classes = [IsAuthenticated]
+
+class RawRecordViewSet(TenantScopedMixin, viewsets.ModelViewSet):
+    queryset           = RawRecord.objects.select_related("batch")
+    serializer_class   = EmissionRecordSerializer  # Reuse for simplicity
+    permission_classes = [IsAuthenticated]
+
+class DataSourceViewSet(TenantScopedMixin, viewsets.ModelViewSet): 
+    queryset           = DataSource.objects.all()
+    serializer_class   = DataSourceSerializer  # Reuse for simplicity
+    permission_classes = [IsAuthenticated]
+
+class FacilityViewSet(TenantScopedMixin, viewsets.ModelViewSet):
+    queryset           = Facility.objects.all()
+    serializer_class   = FacilitySerializer  # Reuse for simplicity
+    permission_classes = [IsAuthenticated]  # Facilities can be public for selection in dropdowns
+
+class AuditLogViewSet(TenantScopedMixin, viewsets.ModelViewSet):
+    queryset           = AuditLog.objects.select_related("changed_by")
+    serializer_class   = AuditLogSerializer
     permission_classes = [IsAuthenticated]
