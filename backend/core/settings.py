@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9qfrb7n-a1$ky0%l*=yyam6bfk0!yy1(j7^eq$p48d1y(vhb^1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -112,6 +112,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
 
 AUTH_USER_MODEL = "emissions.User"
 
